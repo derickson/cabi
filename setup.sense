@@ -1,0 +1,80 @@
+DELETE /cabi5small
+
+GET /_aliases
+
+GET /cabi4small
+
+GET /cabi3/_search
+
+PUT /cabi4
+{
+  "settings": {
+    "number_of_replicas": 0,
+    "number_of_shards": 3
+  },
+  "mappings": {
+    "trips": {
+            "_all" : {"enabled" : false},
+            "properties": {
+               "bikeNum": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+               "behavior": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+               "duration": {
+                  "type": "long"
+               },
+               "endDate": {
+                  "type": "date",
+                  "format": "yyyy-MM-dd'T'HH:mm:ss Z" 
+               },
+               "endStation": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+               "startDate": {
+                  "type": "date",
+                  "format": "yyyy-MM-dd'T'HH:mm:ss Z" 
+               },
+               "startStation": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+               "subType": {
+                  "type": "string",
+                  "index": "not_analyzed"
+               },
+			         "startLocation": {
+			   	      "type": "geo_point"
+			   },
+			   "endLocation": {
+			   	  "type": "geo_point"
+			   }
+            }
+         }
+  }
+}
+
+PUT /cabi3/trips/test
+{
+  "startDate": "2010-12-31T23:49:00 -0400", 
+  "endDate": "2011-01-01T14:15:00 -0400", 
+  "endStation": "10th & U St NW (31111)", 
+  "subType": "Casual", 
+  "bikeNum": "W00771", 
+  "duration": 51962, 
+  "startStation": "10th & U St NW (31111)"
+}
+
+GET /_aliases
+
+POST /_aliases
+{
+  "actions": [
+    { "remove": {"index": "cabi4small", "alias": "capitalBikeshare" } },
+    { "add": { "index": "cabi4", "alias": "capitalBikeshare"} }
+  ]
+}
