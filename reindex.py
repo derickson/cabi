@@ -15,7 +15,7 @@ justPrintN = False
 n = 1
 
 fromIndex = 'cabi3'
-toIndex = 'cabi4'
+toIndex = 'cabi5'
 
 theType = 'trips'
 scrollDur = '30m'
@@ -56,13 +56,15 @@ def mutateDocument( source ):
         source['startLocation'] = [ float(startStation[u'long']), float(startStation[u'lat']) ]
     except KeyError:
         ##print "no start station: " + source['startStation']
-        source['startLocation'] = [-77.1412335, 38.9621287 ]
+        ##source['startLocation'] = [-77.1412335, 38.9621287 ]
+        source['todo'] = 'noLocation'
     try:
         endStation = stations[source['endStation']]
         source['endLocation'] = [ float(endStation[u'long']), float(endStation[u'lat']) ]
     except KeyError:
         ##print "no end station: " + source['endStation']
-        source['endLocation'] = [-77.1412335, 38.9621287 ]
+        ##source['endLocation'] = [-77.1412335, 38.9621287 ]
+        source['todo'] = 'noLocation'
     ## Already Processed
     # # correct subType
     # origSubType = source['subType'].lower()
