@@ -1,0 +1,44 @@
+PUT _template/bikelog
+{
+  "template": "bikelog-*",
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "_default_": {
+      "dynamic_templates": [
+        {
+          "string_fields": {
+            "mapping": {
+              "index": "not_analyzed",
+              "omit_norms": true,
+              "type": "string"
+            },
+            "match_mapping_type": "string",
+            "match": "*"
+          }
+        }
+      ],
+      "_all": {
+        "enabled": true
+      },
+      "properties": {
+        "endDate": { "type": "date"},
+        "startDate": { "type": "date" },
+        "startLocation": { "type": "geo_point" },
+        "endLocation": { "type": "geo_point" },
+        "yob": { "type": "integer" },
+        "startStationId": { "type": "integer" },
+        "endStationId": { "type": "integer" }
+      }        
+    }
+  }
+}
+
+POST /_aliases
+{
+    "actions" : [
+        { "add" : { "index" : "bikelog-*", "alias" : "capitalBikeshare" } }
+    ]
+}
