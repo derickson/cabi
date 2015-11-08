@@ -1,0 +1,87 @@
+{
+  "order": 0,
+  "template": "bikeshare-*",
+  "settings": {
+     "index.number_of_replicas": "0",
+     "index.number_of_shards": "1"
+  },
+  "mappings": {
+     "_default_": {
+        "dynamic_templates": [
+           {
+              "string_fields": {
+                 "mapping": {
+                    "index": "not_analyzed",
+                    "omit_norms": true,
+                    "type": "string",
+                    "doc_values": true
+                 },
+                 "match_mapping_type": "string",
+                 "match": "*"
+              }
+           },
+           {
+              "int_fields": {
+                 "mapping": {
+                    "type": "integer",
+                    "doc_values": true
+                 },
+                 "match_mapping_type": "integer",
+                 "match": "*"
+              }
+           }
+        ],
+        "_all": {
+           "enabled": true
+        },
+        "properties": {
+          
+          "startDate": {
+             "type": "date",
+             "doc_values": true
+          },
+          "endDate": {
+             "type": "date",
+             "doc_values": true
+          },
+          
+           "startLocation": {
+              "fielddata": {
+                 "precision": "20m",
+                 "format": "compressed"
+              },
+              "geohash": true,
+              "type": "geo_point",
+              "doc_values": true
+           },
+           "endLocation": {
+              "fielddata": {
+                 "precision": "20m",
+                 "format": "compressed"
+              },
+              "geohash": true,
+              "type": "geo_point",
+              "doc_values": true
+           },
+           
+           "endStationId": {
+              "type": "integer",
+              "doc_values": true
+           },
+           "startStationId": {
+              "type": "integer",
+              "doc_values": true
+           },
+           "yob": {
+              "type": "integer",
+              "doc_values": true
+           }
+
+
+        }
+     }
+  },
+  "aliases": {
+    "bikeshare" : {}
+  }
+}
